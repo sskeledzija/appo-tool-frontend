@@ -1,0 +1,52 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es6",
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "declaration": false,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "removeComments": true,
+    "strictNullChecks": true,
+    "allowJs": true,
+    "outDir": "content",
+    "lib": [
+      "es5",
+      "es6",
+      "es7",
+      "es2015",
+      "es2016",
+      "es2017.intl",
+      "es2018",
+      "es2018.intl",
+      "dom"
+    ],
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
+  },
+  "exclude": [
+    "dist",
+    "content",
+    "node_modules"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "useBabel": true,
+    "useCache": true,
+    "babelCore": "@babel/core"
+  },
+  "include": [
+    "src"
+  ]
+}

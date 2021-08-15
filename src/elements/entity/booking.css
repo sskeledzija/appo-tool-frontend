@@ -1,0 +1,28 @@
+.entity_details {
+    display: block;
+    clear: both;
+    padding: 20px;
+    margin-bottom: 10px;
+    margin-left: 20%;
+    background: #F4F4F2;
+    overflow: hidden;
+    width: 50%;
+}
+
+.entity_label{
+    display: block;
+    padding: 5px 0;
+    float: left;
+    font-weight: bold;
+    font-size: 16px;
+    color: #777;
+}
+
+.entity_value{
+    display: block;
+    padding: 5px 0;
+    float: none;
+    font-weight: bold;
+    font-size: 16px;
+    color: #777;
+}
