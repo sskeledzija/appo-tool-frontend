@@ -29,7 +29,7 @@ export const AppHeader = withRouter(({history}) => {
 
     return (
        <div style={{  textAlign: 'left', fontSize: 25, maxHeight: 100, backgroundColor: '#1F4B8C '}} /* className="App" */>
-           <a href="/" style={{float: 'left', color: 'white', cursor: 'pointer'}}>Book.Me</a>
+           <a href="/" style={{float: 'left', color: 'white', cursor: 'pointer'}}>My Appo Tool</a>
             <div style= {{display: 'flex !important', overflow: 'hidden'}} >
                 <div style={{float: 'right'}}>
                     <input style={{margin: '3px',   height: '2.5rem', boxSizing: 'border-box', textAlign: 'start', padding: '.35rem', fontWeight: 400, border: '1px solid #ced4da', borderRadius: '.25rem'}}
