@@ -203,14 +203,14 @@ export const Register = withRouter(({history}) => {
                         <small>Yes, I would like to receive product informations and updates from this application (Optional)</small>
                     </Col>
                 </Row>
-                <Row style={{paddingTop: '15px'}}>
+                <Row style={{padding: '15px'}}>
                     <Col span={13}></Col>
                     <Col span={4}>
                         <Button type='primary' size='large' onClick={register} disabled={!termsAccepted}>Register</Button>
                     </Col>
                 </Row>
             </Form>
-        <button onClick={register} >Register</button> 
+        
             {/* </Content> */}
 
         {/* </Layout> */}
