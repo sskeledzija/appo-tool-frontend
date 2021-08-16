@@ -5,7 +5,7 @@ import { Main } from './Main';
 
 import Layout, { Content, Header } from 'antd/lib/layout/layout';
 import React, { useState } from 'react';
-import { AppstoreAddOutlined, AppstoreOutlined, GoldOutlined, LogoutOutlined, MailOutlined, 
+import { AppstoreAddOutlined, AppstoreOutlined, GoldOutlined, HomeOutlined, LogoutOutlined, MailOutlined, 
   MessageOutlined, ProfileOutlined, ScheduleOutlined, SettingOutlined, TeamOutlined, 
   UserOutlined } from '@ant-design/icons';
 import Sider from 'antd/lib/layout/Sider';
@@ -48,6 +48,7 @@ return (
                 //theme="dark"
                 inlineCollapsed={collapsed.collapsed}
             >
+            <Menu.Item onClick={() => history.push('/')} icon={<HomeOutlined />} key="home">Home</Menu.Item>
             <SubMenu key="bookerSub" icon={<UserOutlined />}  title="Booker">
                 <Menu.Item onClick={() => history.push('/profile')} icon={<UserOutlined />} key="1">My Profile</Menu.Item>
                 <Menu.Item onClick={() => history.push('/subscriptions')} icon={<GoldOutlined />} key="2">My Subscriptions</Menu.Item>
