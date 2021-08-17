@@ -3,6 +3,10 @@ import './login.css'
 import { useUserWorkshop } from '../store/UserStore';
 import { withRouter } from 'react-router-dom';
 import { useSubscriptionWorkshop } from '../store/SubscriptionStore';
+import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faGoogle, faTwitter } from '@fortawesome/free-brands-svg-icons';
 
 export const LoginComponent = withRouter(({history})  => {
 
@@ -105,7 +109,90 @@ export const LoginComponent = withRouter(({history})  => {
 
 return (
     <div>
-        <form method='post'>
+        <Row >
+            <Col span={9}></Col>
+            <Col span={5}>
+                <Form
+                    style={{paddingTop: '60px'}}
+                    name="normal_login"
+                    className="login-form"
+                    initialValues={{ remember: true }}
+                    // onFinish={onFinish}
+                    >
+                   
+                   <Col span={24} ><div style={{width: '100%', textAlign: 'center'}}><h3> Login </h3></div> </Col>
+
+                    <Form.Item
+                        name="username"
+                        rules={[{ required: true, message: 'Please enter your Username or email!' }]}
+                    >
+                        <Input onChange={handleusername} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                    </Form.Item>
+                    <Form.Item
+                        name="password"
+                        rules={[{ required: true, message: 'Please enter your Password!' }]}
+                    >
+                        <Input.Password onChange={handlepassword}
+                        prefix={<LockOutlined className="site-form-item-icon" />}
+                        type="password"
+                        placeholder="Password"
+                        />
+                    </Form.Item>
+                   
+                   <Col span={24} ><div style={{width: '100%', textAlign: 'center'}}><small> Or with </small></div> </Col>
+                   
+                   <Form.Item className='social-button'>
+                        <Button style={{width: '100%'}} >
+                            <FontAwesomeIcon icon={faGoogle} />
+                        </Button>
+                    </Form.Item>
+                    <Form.Item className='social-button'>
+                        <Button style={{width: '100%'}} >
+                            <FontAwesomeIcon icon={faFacebook} />
+                        </Button>
+                    </Form.Item>
+
+                    <Form.Item className='social-button'>
+                        <Button style={{width: '100%'}} >
+                        <FontAwesomeIcon icon={faTwitter} />
+                        </Button>
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Form.Item name="remember" valuePropName="checked" noStyle>
+                            <Checkbox>Remember me</Checkbox>
+                        </Form.Item>
+
+                        <a className="login-form-forgot" href="">
+                        Forgot password
+                        </a>
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button onClick={loginUser} type="primary" className="login-form-button" >
+                        Log in
+                        </Button>
+                        Or <a style={{color: 'DodgerBlue '}} onClick={() => history.push('/register')}>register now! </a>
+                    </Form.Item>
+                    </Form>
+                </Col>
+            </Row>
+            <FontAwesomeIcon icon={['fab', 'apple']} />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {/* <form method='post'>
             <div className="login-wrapper">
                 <span >
                     Login
@@ -168,7 +255,7 @@ return (
                     </button>
                 </div>
             </div>
-		</form>
+		</form> */}
 
     </div>
     )}

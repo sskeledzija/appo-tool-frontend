@@ -3,3 +3,7 @@
     flex-direction: column;
     align-items: center;
 }
+
+.social-button {
+    margin-bottom: 1px !important;
+}
