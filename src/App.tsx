@@ -58,7 +58,7 @@ return (
                 
             </SubMenu>
             <SubMenu key="sub2"  icon={<AppstoreOutlined />}  title="My entities">
-                <Menu.Item icon={<AppstoreAddOutlined />} key="5">Create New</Menu.Item>
+                <Menu.Item onClick={() => history.push('/entity-overview')} icon={<AppstoreAddOutlined />} key="5">Entity overview</Menu.Item>
                 
                 <SubMenu icon={<TeamOutlined />} key="sub3" title="Migra - Udruga gradana">
                     <Menu.Item icon={<ProfileOutlined />}  key="6">Appointments</Menu.Item>

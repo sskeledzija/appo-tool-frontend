@@ -6,6 +6,7 @@ export const Logout = withRouter(({history}) => {
 
    // const logout = useUserStore(state => state.logout)
     useEffect(() => {
+        // TODO cleanup states
             localStorage.removeItem('token')
             useUserWorkshop.setState({user: undefined});
             history.push('/')

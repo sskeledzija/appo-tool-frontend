@@ -16,7 +16,7 @@ export const BookerHome = withRouter(({history}) => {
     return (
         
         <div>
-            <div> <h2> Wellcome {user['name']}!</h2> </div>
+            <div> <h2> Hi {user['name']}!</h2> </div>
             <br/>
             <hr/>
             <div>Choose your options</div>
