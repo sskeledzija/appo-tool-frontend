@@ -3,7 +3,7 @@ import './login.css'
 import { useUserWorkshop } from '../store/UserStore';
 import { withRouter } from 'react-router-dom';
 import { useSubscriptionWorkshop } from '../store/SubscriptionStore';
-import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
+import { Form, Input, Button, Checkbox, Row, Col, message } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faGoogle, faTwitter } from '@fortawesome/free-brands-svg-icons';
@@ -38,8 +38,10 @@ export const LoginComponent = withRouter(({history})  => {
      }
 
     useEffect(() => {
+       
         const token = getToken()
         if (token) {
+            message.loading('Getting user data...', 1)
             fetch('http://localhost:9999/login/token', 
             {
               method: 'post',
@@ -56,23 +58,31 @@ export const LoginComponent = withRouter(({history})  => {
                     return response;
                 }
              )
-            .then(
-                  data => data.json())
+            .then(data => {
+                data => data.json()}
+            )
             .then(jsonDataUser => {
                 setUser(jsonDataUser)
                 setToken(jsonDataUser['token'])
                 getSubscriptions(jsonDataUser)
+                message.destroy
+                message.success('User data succesfully fetched!', 2 )
                 history.push('/')
               })
-              .catch((e) => console.log("Error happend during geting user data: "  + e)
+              .catch((e) => message.error('Error happend during geting user data', 3)
+              
               )
         }
     }, [])
         //
         const loginUser =  (e) => {
+            if(!username || !password) {
+                return
+            }
             // remove any existing token
             localStorage.removeItem('token')
-            e.preventDefault();
+            message.loading('Getting user data...', 1)
+
           fetch('http://localhost:9999/login', 
           {
             method: 'post',
@@ -93,6 +103,8 @@ export const LoginComponent = withRouter(({history})  => {
           .then(
                 data => data.json())
           .then(jsonDataUser => {
+            message.success('You are succesfully logged!', 2 )
+
             setUser(jsonDataUser)
             setToken(jsonDataUser['token'])
             getSubscriptions(jsonDataUser)
@@ -100,12 +112,10 @@ export const LoginComponent = withRouter(({history})  => {
             })
             .catch((error) => {
                 // TODO move to client and show error message notification
-                console.error(error);
+                message.error('User could not be logged in', 3 )
               
             })
         }
-        
-   //   }, [])
 
 return (
     <div>
@@ -169,94 +179,17 @@ return (
                     </Form.Item>
 
                     <Form.Item>
-                        <Button onClick={loginUser} type="primary" className="login-form-button" >
+                        <Button onClick={loginUser} htmlType='submit' type="primary" className="login-form-button" >
+                            
                         Log in
                         </Button>
+                        {/* <button type='submit'>suubbb</button> */}
                         Or <a style={{color: 'DodgerBlue '}} onClick={() => history.push('/register')}>register now! </a>
                     </Form.Item>
                     </Form>
                 </Col>
             </Row>
-            <FontAwesomeIcon icon={['fab', 'apple']} />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        {/* <form method='post'>
-            <div className="login-wrapper">
-                <span >
-                    Login
-                </span>
-
-                <div data-validate = "Username is required">
-                    <span >Username</span>
-                    <input onChange={handleusername} type="text" name="username" placeholder="Type your username"/>
-                    <span data-symbol="&#xf206;"></span>
-                </div>
-
-                <div  data-validate="Password is required">
-                    <span >Password</span>
-                    <input onChange={handlepassword} type="password" name="pass" placeholder="Type your password"/>
-                    <span data-symbol="&#xf190;"></span>
-                </div>
-                
-                <div >
-                    <a href="#">
-                        Forgot password?
-                    </a>
-                </div>
-                
-                <div >
-                    <div >
-                        <div ></div>
-                        <button onClick={loginUser}>
-                            Login
-                        </button>
-                    </div>
-                </div>
-
-                <div >
-                    <span>
-                        Or Sign Up Using
-                    </span>
-                </div>
-
-                <div >
-                    <a href="#" >
-                        <i className="fa fa-facebook"></i>
-                    </a>
-
-                    <a href="#" >
-                        <i className="fa fa-twitter"></i>
-                    </a>
-
-                    <a href="#" >
-                        <i className="fa fa-google"></i>
-                    </a>
-                </div>
-
-                <div >
-                    <span >
-                        Or Sign Up Using
-                    </span>
-
-                    <button  onClick={() => history.push('/register')}  >
-                        Sign Up
-                    </button>
-                </div>
-            </div>
-		</form> */}
-
+            
     </div>
     )}
 )

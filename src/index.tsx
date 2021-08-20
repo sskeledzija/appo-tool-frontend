@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
-//import './index.css';
-import App from './App';
 import Exposed from './components/login/Exposed';
 import reportWebVitals from './reportWebVitals';
 

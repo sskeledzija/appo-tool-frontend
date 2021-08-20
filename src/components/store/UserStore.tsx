@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import axios from 'axios';
 import create from 'zustand'
 
@@ -14,12 +15,17 @@ export const useUserWorkshop = create<UserStore>((set, get) => ({
     token: undefined,
     registerUser: async (user) => {
         const response = await axios.post('http://localhost:9999/login/register', 
-            {...user});
+            {...user}).catch(
+                e => {
+                    message.error("UPS! Something went wrong with user registration: " + e, 3)
+                    return null
+                }
+            );
        
-        get().setActiveUser(response.data);
+        get().setActiveUser(response?.data);
         
-       if (response.status != 201) {
-            console.log("something went wrong with getting of user: " + response.statusText);
+       if (response !== null) {
+           message.success('User ' + user['name']+ ' was succesfully created! ', 3)
        }
        return get().user;    
         

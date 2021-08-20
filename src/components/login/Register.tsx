@@ -1,6 +1,6 @@
 import { Col, Row, Select, Switch} from 'antd'
 import { Form, Input, Button, Checkbox } from 'antd';
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { useUserWorkshop } from '../store/UserStore'
 import { Fieldset } from 'primereact/fieldset';
@@ -12,7 +12,7 @@ export const Register = withRouter(({history}) => {
     const [termsAccepted, setTermsAccepted] = useState(true)
     const [regData, setRegData] = useState({name: '', lastName: '', email: '', password: '',
         phone: '', street: '', postCode: '', city: '', country: '', houseNr: '', addressLine2: ''})
-    const [user, registerUser, setUser] = useUserWorkshop((state ) => [state.user, state.registerUser, state.setActiveUser])
+    const [user, registerUser] = useUserWorkshop((state ) => [state.user, state.registerUser])
 
     function setToken(token) {
         localStorage.setItem('token', JSON.stringify(token));
@@ -30,7 +30,7 @@ export const Register = withRouter(({history}) => {
 
     const register = async () => {
 
-        await registerUser({      
+      const user = await registerUser({      
             "emailAddress": regData.email,
             "user": {
                 "name": regData.name,
@@ -39,14 +39,14 @@ export const Register = withRouter(({history}) => {
                 "address": {"street": regData.street, "houseNr": regData.houseNr, "addresLine2": regData.addressLine2, "postCode": regData.postCode, "city": regData.city, "country": regData.country, consent: { gaveConsent: gaveConsent } },
                 "password": regData.password
             }
-        }). then(async (result) => {
-            await setUser(result)
-            setToken(result['token']);
-            history.push('/');
-        }).catch((err) => {
-            console.log('error: ' + err );
-            
-        });
+        })
+
+        if (!user) {
+            return
+        }
+           
+        setToken(user['token']);
+        history.push('/welcome');
 
     }
 
@@ -96,7 +96,7 @@ export const Register = withRouter(({history}) => {
 
                 <Form.Item
                         label="Name"
-                        name="username"
+                        name="rusername"
                         rules={[{ required: true, message: 'Please enter your name' }]}
                     >
                         <Input onChange={(e) => setRegData({...regData, name: e.target.value})} value={regData.name}/>
@@ -104,7 +104,7 @@ export const Register = withRouter(({history}) => {
                 
                 <Form.Item
                         label="Last name"
-                        name="userlastname"
+                        name="ruserlastname"
                         rules={[{ required: true, message: 'Please enter your last name' }]}
                     >
                         <Input onChange={(e) => setRegData({...regData, lastName: e.target.value})} value={regData.lastName} />
@@ -112,7 +112,7 @@ export const Register = withRouter(({history}) => {
 
                 <Form.Item
                         label="Email"
-                        name="useremail"
+                        name="ruseremail"
                         rules={[{type:'email', required: true, message: 'Please enter your e-mail' }]}
                     >
                     <Input onChange={(e) => setRegData({...regData, email: e.target.value})} value={regData.email} />
@@ -120,7 +120,7 @@ export const Register = withRouter(({history}) => {
                 
                 <Form.Item
                     label="Password"
-                    name="userpassword"
+                    name="ruserpassword"
                     rules={[{ required: true, message: 'Please enter your password!' }]}
                 >
                     <Input.Password onChange={(e) => setRegData({...regData, password: e.target.value})} value={regData.password} />

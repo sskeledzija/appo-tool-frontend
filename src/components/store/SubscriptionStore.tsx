@@ -1,6 +1,7 @@
 import axios from 'axios';
 import create from 'zustand'
 import _ from 'lodash';
+import { message } from 'antd';
 
 type SubscriptionStore = {
     subscriptions: any[];
@@ -44,11 +45,12 @@ export const useSubscriptionWorkshop = create<SubscriptionStore>((set, get) => (
       {
         bookerId: user['id'],
         comment: 'suchessssss'}
-        ).then( response =>
-          set({subscriptions: [...get().subscriptions, response.data]})
+        ).then( response => {
+            set({subscriptions: [...get().subscriptions, response.data]})
+            message.info('Subscription request is successfully sent.')
+          }
         ).catch(e => 
-          console.log("Subscription cannot be added: " +  e.response )
-          
+          message.error('Oh no, subscription request could not be sent (' + e +')')          
         )
     },
 
@@ -59,10 +61,14 @@ export const useSubscriptionWorkshop = create<SubscriptionStore>((set, get) => (
         },
       });
       axiosDeleteInstance.delete('http://localhost:9999/users/' + user['id'] + '/subscriptions/' + subscription['id']
-        ).then( response =>
-          get().reloadSubscriptions(user)
-        ).catch(e => 
+        ).then( response => {
+            get().reloadSubscriptions(user)
+            message.success('Subscription is succesffuly waitForElementToBeRemoved.')
+          }
+        ).catch(e => {
           console.log("Cannot remove subscription: " +  JSON.stringify(e.response) )
+          message.error("Unfortunately we cannot remove the subscription, please try again later.")         
+        }
           
         )
 
