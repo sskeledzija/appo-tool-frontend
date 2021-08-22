@@ -5,7 +5,9 @@ import create from 'zustand'
 type UserStore = {
     user: any;
     token: any;
-    registerUser: (user) => any
+    login: (user, password) => any;
+    loginWithToken: (token) => any;
+    registerUser: (user) => any;
     setActiveUser: (user) => void;
     logout: () => void;
   };
@@ -13,6 +15,40 @@ type UserStore = {
 export const useUserWorkshop = create<UserStore>((set, get) => ({
     user: undefined,
     token: undefined,
+    login: async (email, password) => {
+        const response = await axios.post('http://localhost:9999/login', 
+            {email: email, password: password}).catch(
+                e => {
+                    message.error("UPS! Something went wrong with user login: " + e, 3)
+                    return null
+                }
+            );
+       
+        get().setActiveUser(response?.data);
+        
+       if (response !== null) {
+           message.success('User ' + get().user['name']+ ' was succesfully logged in! ', 3)
+       }
+       return get().user;    
+        
+    },
+    loginWithToken: async (token) => {
+        const response = await axios.post('http://localhost:9999/login/token', 
+            { token: token }).catch(
+                e => {
+                    message.error("UPS! Something went wrong with user login: " + e, 3)
+                    return null
+                }
+            );
+       
+        get().setActiveUser(response?.data);
+        
+       if (response !== null) {
+           message.success('User ' + get().user['name']+ ' was succesfully logged in! ', 3)
+       }
+       return get().user;    
+        
+    },
     registerUser: async (user) => {
         const response = await axios.post('http://localhost:9999/login/register', 
             {...user}).catch(

@@ -13,7 +13,7 @@ export const LoginComponent = withRouter(({history})  => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
-    const [user, setUser] = useUserWorkshop((state) => [state.user, state.setActiveUser])
+    const [user, login, loginWithtoken] = useUserWorkshop((state) => [state.user, state.login, state.loginWithToken])
 
     const handleusername = (e) => {
         setUsername(e.target.value)
@@ -25,96 +25,48 @@ export const LoginComponent = withRouter(({history})  => {
 
     const getSubscriptions = useSubscriptionWorkshop((state) => state.getSubscriptions)
 
-    function setToken(token) {
+    const setToken = (token) => {
         localStorage.setItem('token', JSON.stringify(token));
         console.log("### SAVED token: " + token);
      }
 
-     function getToken() {
+     const getToken = () => {
         const t = localStorage.getItem('token')
         if (t)
           console.log("##### GOT token: " + t);
         return t
      }
 
+     const reloginWithToken = async (token) => {
+        const user = await loginWithtoken(JSON.parse(token));
+        setToken(user['token'])
+        getSubscriptions(user)
+       // message.success('User data succesfully fetched!', 2 )
+        history.push('/')
+    }
+
     useEffect(() => {
        
         const token = getToken()
-        if (token) {
-            message.loading('Getting user data...', 1)
-            fetch('http://localhost:9999/login/token', 
-            {
-              method: 'post',
-              headers: {'Content-Type':'application/json'},
-              body: JSON.stringify({
-                  "token": JSON.parse(token)
-              })
-             })
-             .then(
-                (response) => {
-                    if (!response.ok) {
-                        throw Error(response.status +': ' + response.json);
-                    }
-                    return response;
-                }
-             )
-            .then(data => {
-                data => data.json()}
-            )
-            .then(jsonDataUser => {
-                setUser(jsonDataUser)
-                setToken(jsonDataUser['token'])
-                getSubscriptions(jsonDataUser)
-                message.destroy
-                message.success('User data succesfully fetched!', 2 )
-                history.push('/')
-              })
-              .catch((e) => message.error('Error happend during geting user data', 3)
-              
-              )
+        if (user === undefined && token !== 'undefined' && token !== null) {
+            reloginWithToken(token);
         }
     }, [])
         //
-        const loginUser =  (e) => {
+        const loginUser =  async (e) => {
             if(!username || !password) {
                 return
             }
+            message.loading('Getting user data...', 1)
             // remove any existing token
             localStorage.removeItem('token')
-            message.loading('Getting user data...', 1)
 
-          fetch('http://localhost:9999/login', 
-          {
-            method: 'post',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({
-                "email": username,
-                "password": password
-            })
-           })
-           .then(
-            (response) => {
-                if (!response.ok) {
-                    throw Error(response.status +': ' + response.json + ", description: " + response.statusText);
-                }
-                return response;
-            }
-            )
-          .then(
-                data => data.json())
-          .then(jsonDataUser => {
-            message.success('You are succesfully logged!', 2 )
-
-            setUser(jsonDataUser)
-            setToken(jsonDataUser['token'])
-            getSubscriptions(jsonDataUser)
+            const loggedUser = await login(username, password)
+         
+            setToken(loggedUser['token'])
+            getSubscriptions(loggedUser)
+            
             history.push("/")
-            })
-            .catch((error) => {
-                // TODO move to client and show error message notification
-                message.error('User could not be logged in', 3 )
-              
-            })
         }
 
 return (
