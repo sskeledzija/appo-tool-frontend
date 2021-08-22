@@ -11,7 +11,7 @@ import { MyProfile } from './components/user/MyProfile'
 import { MyAppointments } from './components/user/MyAppointments'
 import { MyMessages } from './components/user/MyMessages'
 import { WelcomeForm } from './components/login/WelcomeForm'
-import { EntityOverview } from './components/schedule/EntityOverview'
+import { EntityOverview } from './components/entities/EntityOverview'
 
 
 // noinspection JSUnusedLocalSymbols
