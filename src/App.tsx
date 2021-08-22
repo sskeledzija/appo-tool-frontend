@@ -7,10 +7,12 @@ import Layout, { Content, Header } from 'antd/lib/layout/layout';
 import React, { useState } from 'react';
 import { AppstoreAddOutlined, AppstoreOutlined, GoldOutlined, HomeOutlined, LogoutOutlined, MailOutlined, 
   MessageOutlined, ProfileOutlined, ScheduleOutlined, SettingOutlined, TeamOutlined, 
+  UnorderedListOutlined, 
   UserOutlined } from '@ant-design/icons';
 import Sider from 'antd/lib/layout/Sider';
 import { Badge, Menu, PageHeader } from 'antd';
 import SubMenu from 'antd/lib/menu/SubMenu';
+import { useEntityWorkshop } from './components/store/EntityStore';
 
 
 export const App = withRouter(({history}) => {
@@ -18,6 +20,7 @@ export const App = withRouter(({history}) => {
   const [collapsed, setState] = useState({collapsed: false})
   const [, setMenuState] = useState({current: '1'})
   const [headerText, setHeaderText] = useState('Home');
+  const entities = useEntityWorkshop(state => state.entities)
  
   const onCollapse = collapsed => {
     console.log(collapsed);
@@ -60,13 +63,16 @@ return (
             <SubMenu key="sub2"  icon={<AppstoreOutlined />}  title="My entities">
                 <Menu.Item onClick={() => history.push('/entity-overview')} icon={<AppstoreAddOutlined />} key="5">Entity overview</Menu.Item>
                 
-                <SubMenu icon={<TeamOutlined />} key="sub3" title="Migra - Udruga gradana">
-                    <Menu.Item icon={<ProfileOutlined />}  key="6">Appointments</Menu.Item>
-                    <Menu.Item icon={<ScheduleOutlined />} key="7">Schedule</Menu.Item>
-                    <Menu.Item icon={<MessageOutlined />} key="8">Messages</Menu.Item>
-                    <Menu.Item icon={<SettingOutlined />} key="9">Settings</Menu.Item>
-                </SubMenu>
-                <Menu.Item key="10">Option 6</Menu.Item>
+                {entities.map(entity =>
+                    <SubMenu icon={<TeamOutlined />} key={entity['id']} title={entity['name']}>
+                        <Menu.Item icon={<ProfileOutlined />} onClick={() => history.push(`/entity-overview/${entity['id']}`)}  key={entity['id']+'profile'}>Profile</Menu.Item>
+                        <Menu.Item icon={<UnorderedListOutlined />}  key={entity['id']+'appos'}>Appointments</Menu.Item>
+                        <Menu.Item icon={<ScheduleOutlined />} key={entity['id']+'scheds'}>Schedule</Menu.Item>
+                        <Menu.Item icon={<MessageOutlined />} key={entity['id']+'mess'}>Messages</Menu.Item>
+                        <Menu.Item icon={<SettingOutlined />} key={entity['id']+'Sett'}>Settings</Menu.Item>
+                    </SubMenu>
+                )}
+                {/* <Menu.Item key="10">Option 6</Menu.Item> */}
             </SubMenu>
             {/* <SubMenu key="sub4"  icon={<SettingOutlined />}  title="Preferencess"> */}
                 <Menu.Item icon={<SettingOutlined />} key="11">Settings</Menu.Item>

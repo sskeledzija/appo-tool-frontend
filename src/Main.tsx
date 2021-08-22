@@ -44,6 +44,7 @@ export const Main = () => {
           <Route path="/profile" component={MyProfile} />
           <Route path="/logout" component={Logout} />
           <GuardedRoute path="/entity-overview" component={EntityOverview} auth={isAuthenticated}/>
+          <GuardedRoute path="/entity-overview/:id" component={EntityProfile} auth={isAuthenticated}/>
           <GuardedRoute path="/subscriptions/:id" component={EntityProfile} auth={isAuthenticated} />
           <GuardedRoute path="/search/:id" component={SearchResults} auth={isAuthenticated}/>
           <GuardedRoute path="/welcome" component={WelcomeForm} auth={isAuthenticated}/>
