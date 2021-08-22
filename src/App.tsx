@@ -98,18 +98,6 @@ return (
 
 
   </Layout>
-  
-
-{/*    <HashRouter>
-      <AppHeader ></AppHeader>
-      <AppSideMenu></AppSideMenu>
-      <Main></Main>
-      </HashRouter> */}
-      
-  
-    {/* <Subscriptions></Subscriptions> */}
-    
-    
     
   </div>
 );

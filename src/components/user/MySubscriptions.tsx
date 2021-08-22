@@ -45,45 +45,39 @@ export const SubscriptionsComponent = withRouter(({ history, match }) => {
     return <EntityProfile match={id} ></EntityProfile>
   }
 
-    if (subscriptionState.subscriptions.length > 0) {
-      return (
-        <div style={{paddingTop: '20px'}}>
+  if (subscriptionState.subscriptions.length > 0) {
+    return (
+      <div style={{paddingTop: '20px'}}>
 
-        <div className="site-card-wrapper">
-            <Row gutter={16}>
-             
-              {subscriptionState?.subscriptions?.map(s => 
-                <Col span={6} key={s['id']}> 
-                  <Card 
-                    key={s[id]+1}
-                    onClick={() => history.push('/subscriptions/'+s.entity.id)}
-                    hoverable
-                    style={{ width: 240 }}
-                    cover={<img alt="example" src="https://i.stack.imgur.com/l60Hf.png" />}>
-                    <Meta title={s['entity']['name']} description={s['entity']['description']} />
-                    
-                  </Card>
-                </Col>)}
-              
-              
-            </Row>
-          </div>
-
-          {/* <div >
-            {
-              subscriptionState?.subscriptions?.map(s =>  
-                <SubscriptionItem key={s['id']} subscription={s} onClick={() => history.push('/subscriptions/'+s.bookingEntity.id)}></SubscriptionItem>)}
-          </div>             */}
+      <div className="site-card-wrapper">
+          <Row gutter={16}>
+            
+            {subscriptionState?.subscriptions?.map(s => 
+              <Col span={6} key={s['id']}> 
+                <Card 
+                  key={s[id]+1}
+                  onClick={() => history.push('/subscriptions/'+s.entity.id)}
+                  hoverable
+                  style={{ width: 240 }}
+                  cover={<img alt="example" src="https://i.stack.imgur.com/l60Hf.png" />}>
+                  <Meta title={s['entity']['name']} description={s['entity']['description']} />
+                  
+                </Card>
+              </Col>)}
+            
+            
+          </Row>
         </div>
-      )
-        } else {
-          return (          
-            <>
-              <br/>
-              <Empty  description='No Subscriptions found...'/>
-            </>
-          )
-        }    
+      </div>
+    )
+      } else {
+        return (          
+          <>
+            <br/>
+            <Empty  description='No Subscriptions found...'/>
+          </>
+        )
+      }
 
   }
 )
