@@ -7,6 +7,7 @@ import { Form, Input, Button, Checkbox, Row, Col, message } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faGoogle, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { useEntityWorkshop } from '../store/EntityStore';
 
 export const LoginComponent = withRouter(({history})  => {
 
@@ -14,6 +15,7 @@ export const LoginComponent = withRouter(({history})  => {
     const [password, setPassword] = useState("")
 
     const [user, login, loginWithtoken] = useUserWorkshop((state) => [state.user, state.login, state.loginWithToken])
+    const getUserEntities = useEntityWorkshop(state => state.getUserEntities)
 
     const handleusername = (e) => {
         setUsername(e.target.value)
@@ -38,11 +40,8 @@ export const LoginComponent = withRouter(({history})  => {
      }
 
      const reloginWithToken = async (token) => {
-        const user = await loginWithtoken(JSON.parse(token));
-        setToken(user['token'])
-        getSubscriptions(user)
-       // message.success('User data succesfully fetched!', 2 )
-        history.push('/')
+        const loggedUser = await loginWithtoken(JSON.parse(token));
+        loadUserResourcesAndRedirect(loggedUser);
     }
 
     useEffect(() => {
@@ -62,9 +61,14 @@ export const LoginComponent = withRouter(({history})  => {
             localStorage.removeItem('token')
 
             const loggedUser = await login(username, password)
-         
-            setToken(loggedUser['token'])
-            getSubscriptions(loggedUser)
+            loadUserResourcesAndRedirect(loggedUser);
+            
+        }
+
+        const loadUserResourcesAndRedirect = (user) => {
+            setToken(user['token'])
+            getSubscriptions(user)
+            getUserEntities(user['id'])
             
             history.push("/")
         }
