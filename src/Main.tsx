@@ -12,6 +12,7 @@ import { MyAppointments } from './components/user/MyAppointments'
 import { MyMessages } from './components/user/MyMessages'
 import { WelcomeForm } from './components/login/WelcomeForm'
 import { EntityOverview } from './components/entities/EntityOverview'
+import { SchedulesComponent } from './components/schedule/Schedules'
 
 
 // noinspection JSUnusedLocalSymbols
@@ -47,6 +48,7 @@ export const Main = () => {
           <GuardedRoute path="/entity-overview/:id" component={EntityProfile} auth={isAuthenticated}/>
           <GuardedRoute path="/subscriptions/:id" component={EntityProfile} auth={isAuthenticated} />
           <GuardedRoute path="/search/:id" component={SearchResults} auth={isAuthenticated}/>
+          <GuardedRoute path="/templates" component={SchedulesComponent} auth={isAuthenticated}/>
           <GuardedRoute path="/welcome" component={WelcomeForm} auth={isAuthenticated}/>
           
         </Switch>
