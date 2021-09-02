@@ -67,7 +67,7 @@ return (
                     <SubMenu icon={<TeamOutlined />} key={entity['id']} title={entity['name']}>
                         <Menu.Item icon={<ProfileOutlined />} onClick={() => history.push(`/entity-overview/${entity['id']}`)}  key={entity['id']+'profile'}>Profile</Menu.Item>
                         <Menu.Item icon={<UnorderedListOutlined />}  key={entity['id']+'appos'}>Appointments</Menu.Item>
-                        <Menu.Item icon={<ScheduleOutlined />} onClick={() => history.push('/templates')} key={entity['id']+'scheds'}>Schedules</Menu.Item>
+                        <Menu.Item icon={<ScheduleOutlined />} onClick={() => history.push(`/templates/${entity['id']}`)} key={entity['id']+'scheds'}>Schedules</Menu.Item>
                         <Menu.Item icon={<MessageOutlined />} key={entity['id']+'mess'}>Messages</Menu.Item>
                         <Menu.Item icon={<SettingOutlined />} key={entity['id']+'Sett'}>Settings</Menu.Item>
                     </SubMenu>
