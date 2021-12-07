@@ -16,7 +16,7 @@ export const useUserWorkshop = create<UserStore>((set, get) => ({
     user: undefined,
     token: undefined,
     login: async (email, password) => {
-        const response = await axios.post('http://localhost:9999/login', 
+        const response = await axios.post('http://ec2-18-192-174-85.eu-central-1.compute.amazonaws.com:9999/login', 
             {email: email, password: password}).catch(
                 e => {
                     message.error("UPS! Something went wrong with user login: " + e, 3)
@@ -33,7 +33,7 @@ export const useUserWorkshop = create<UserStore>((set, get) => ({
         
     },
     loginWithToken: async (token) => {
-        const response = await axios.post('http://localhost:9999/login/token', 
+        const response = await axios.post('http://ec2-18-192-174-85.eu-central-1.compute.amazonaws.com:9999/login/token', 
             { token: token }).catch(
                 e => {
                     message.error("UPS! Something went wrong with user login: " + e, 3)
@@ -50,7 +50,7 @@ export const useUserWorkshop = create<UserStore>((set, get) => ({
         
     },
     registerUser: async (user) => {
-        const response = await axios.post('http://localhost:9999/login/register', 
+        const response = await axios.post('http://ec2-18-192-174-85.eu-central-1.compute.amazonaws.com:9999/login/register', 
             {...user}).catch(
                 e => {
                     message.error("UPS! Something went wrong with user registration: " + e, 3)

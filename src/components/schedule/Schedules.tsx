@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 //import './../../App.css';
 import { withRouter } from 'react-router-dom'
 import { useUserWorkshop } from '../store/UserStore';
-import { Button, Card, Col, Collapse, DatePicker, Empty, Form, Input, Row, Tag, TimePicker } from 'antd';
+import { Avatar, Button, Card, Col, Collapse, DatePicker, Empty, Form, Input, Row, Space, Tag, TimePicker } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import { useScheduleWorkshop } from '../store/ScheduleStore';
 import Modal from 'antd/lib/modal/Modal';
 import CollapsePanel from 'antd/lib/collapse/CollapsePanel';
-import { ClockCircleOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined, EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import moment, { Moment } from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
@@ -26,7 +26,7 @@ export const SchedulesComponent = withRouter(({ history, match }) => {
   const [visible, setVisible] = useState(false);
   const [addHoursVisible, setAddHoursVisible] = useState(false);
   const user = useUserWorkshop(state => state.user)
-  const [templates, createTemplate] = useScheduleWorkshop(state => [state.templates, state.createTemplate])
+  const [templates, gettemplates, createTemplate] = useScheduleWorkshop(state => [state.templates, state.loadTemplates, state.createTemplate])
   const [periods, setPeriods] = useState({monday: initialPeriodList, 
       tuesday: initialPeriodList, wednesday: initialPeriodList, thursday: initialPeriodList, friday: initialPeriodList,
       saturday: initialPeriodList, sunday: initialPeriodList})
@@ -34,20 +34,14 @@ export const SchedulesComponent = withRouter(({ history, match }) => {
   const [activeDay, setActiveDay] = useState('')
   const [templateData, setTemplateData] = useState({name: '', description: '', validFrom: moment().toISOString(), 
       validTo: moment().toISOString(), disabled: false, nrofSeats: 0, operater: ''})
-  
-  // useEffect(() => {
+  const [templateId, setTemplateid] = useState(match.params.id)
 
-  //   const loadSubscriptions = async () => {
-  //     setSubscriptionState({...subscriptionState, subscriptions: await getUserSubscriptions(user)})
-  //   }
+  useEffect(() => {
 
-  //   if (user) {
-  //     loadSubscriptions()
-  //   }
+    gettemplates(templateId)
 
-  // }, [user])
 
-  // const templateid = match.params.id
+  }, [])
 
   const showModal = () => {
     setVisible(true);
@@ -98,7 +92,7 @@ export const SchedulesComponent = withRouter(({ history, match }) => {
         disabled: templateData.disabled,
         maxNrOfSeats: templateData.nrofSeats,
         workingHours: 
-          [{
+          {
             
             validFrom: templateData.validFrom,
             validTo: templateData.validTo,
@@ -110,7 +104,7 @@ export const SchedulesComponent = withRouter(({ history, match }) => {
             saturday: periods.saturday,
             sunday: periods.sunday
 
-          }]       
+          }      
       })
 
     if (result === null) {
@@ -200,32 +194,46 @@ export const SchedulesComponent = withRouter(({ history, match }) => {
 
   return (
   <>
-  {(templates.length > 0) &&
+  {(templates && templates.length > 0) &&
     
       <div style={{paddingTop: '20px'}}>
 
       <div className="site-card-wrapper">
-          <Row gutter={16}>
-            
+          {/* <Row gutter={3}> */}
+            <Space>
+              
             {templates.map(template => 
-              <Col span={6} key={template['id']}> 
-                <Card 
-                  key={template['id']+1}
-                  onClick={() => history.push('/subscriptions/'+template)}
-                  hoverable
-                  style={{ width: 240 }}
-                  cover={<img alt="example" src="https://i.stack.imgur.com/l60Hf.png" />}>
-                  <Meta title={template['entity']['name']} description={template['entity']['description']} />
-                  
-                </Card>
-              </Col>)}
+             
+                <Card key={template['id']}
+                    style={{ width: 300 }}
+                    hoverable
+                    cover={
+                      <img
+                        alt="example"
+                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                      />
+                    }
+                    actions={[
+                      <SettingOutlined key="setting" />,
+                      <EditOutlined key="edit" />,
+                      <EllipsisOutlined key="ellipsis" />,
+                    ]}
+                  >
+                    <Meta
+                      avatar={<Avatar src="https://i.stack.imgur.com/l60Hf.png" />}
+                      title={template['name']}
+                      description={template['description']}
+                    />
+                  </Card>
+              )}
+              
+              </Space>
             
-            
-          </Row>
+          {/* </Row> */}
         </div>
       </div>}
    
-   {(templates.length === 0) &&          
+   {(templates !== null && templates !== undefined && templates.length === 0) &&          
           <>
             <br/>
             <Empty  description='No Schedule Templates found...'/>

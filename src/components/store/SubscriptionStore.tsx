@@ -26,7 +26,7 @@ export const useSubscriptionWorkshop = create<SubscriptionStore>((set, get) => (
 
     getSubscriptions: async (user) => {
       if (!get().isLoaded) {
-        const response = await axios('http://localhost:9999/users/' + user['id'] + '/subscriptions');
+        const response = await axios('http://ec2-18-192-174-85.eu-central-1.compute.amazonaws.com:9999/users/' + user['id'] + '/subscriptions');
         set({subscriptions: response.data, isLoaded: true})
       }
       return get().subscriptions
@@ -34,14 +34,14 @@ export const useSubscriptionWorkshop = create<SubscriptionStore>((set, get) => (
 
     reloadSubscriptions: async (user) => {
       
-      const response = await axios('http://localhost:9999/users/' + user['id'] + '/subscriptions');
+      const response = await axios('http://ec2-18-192-174-85.eu-central-1.compute.amazonaws.com:9999/users/' + user['id'] + '/subscriptions');
       set({subscriptions: response.data})
       
       return get().subscriptions
     },
 
     addSubscription: async (user, subscription) => {
-      axios.post('http://localhost:9999/users/' + user['id'] + '/subscriptions/' + subscription['id'],
+      axios.post('http://ec2-18-192-174-85.eu-central-1.compute.amazonaws.com:9999/users/' + user['id'] + '/subscriptions/' + subscription['id'],
       {
         bookerId: user['id'],
         comment: 'suchessssss'}
@@ -60,7 +60,7 @@ export const useSubscriptionWorkshop = create<SubscriptionStore>((set, get) => (
             return status == 410;
         },
       });
-      axiosDeleteInstance.delete('http://localhost:9999/users/' + user['id'] + '/subscriptions/' + subscription['id']
+      axiosDeleteInstance.delete('http://ec2-18-192-174-85.eu-central-1.compute.amazonaws.com:9999/users/' + user['id'] + '/subscriptions/' + subscription['id']
         ).then( response => {
             get().reloadSubscriptions(user)
             message.success('Subscription is succesffuly waitForElementToBeRemoved.')
