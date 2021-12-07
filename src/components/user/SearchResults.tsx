@@ -9,7 +9,7 @@ export const SearchResults = withRouter((props) => {
 
     useEffect(() => {
         const searchForBookingEntities = () => {
-            fetch('http://localhost:9999/user-entities/find?key=' + target,  {headers: {'Content-Type': 'application/json'}})
+            fetch('http://ec2-18-192-174-85.eu-central-1.compute.amazonaws.com:9999/user-entities/find?key=' + target,  {headers: {'Content-Type': 'application/json'}})
             .then(
              data => data.json())
             .then(jsonData => {

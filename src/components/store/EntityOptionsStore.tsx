@@ -25,7 +25,7 @@ export const useEntityOptionsWorkshop = create<EntityOptionsStore>((set, get) =>
         set({...get(), isLoaded: true})
     },
     getActivityAreas: async (user) => { //todo there will be general and user defined types
-        const response = await axios.get('http://localhost:9999/user-entities/activity-areas').catch(
+        const response = await axios.get('http://ec2-18-192-174-85.eu-central-1.compute.amazonaws.com:9999/user-entities/activity-areas').catch(
                 e => {
                     console.error("Activity areas could not be loaded: " + e, 3)
                     return null
@@ -42,7 +42,7 @@ export const useEntityOptionsWorkshop = create<EntityOptionsStore>((set, get) =>
     },
     getOrganizationTypes: async (user) => {
         //todo there will be general and user defined types
-        const response = await axios.get('http://localhost:9999/user-entities/organization-types').catch(
+        const response = await axios.get('http://ec2-18-192-174-85.eu-central-1.compute.amazonaws.com:9999/user-entities/organization-types').catch(
             e => {
                 console.error("Organization types could not be loaded: " + e, 3)
                 return null

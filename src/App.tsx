@@ -55,7 +55,7 @@ return (
             <SubMenu key="bookerSub" icon={<UserOutlined />}  title="Booker">
                 <Menu.Item onClick={() => history.push('/profile')} icon={<UserOutlined />} key="1">My Profile</Menu.Item>
                 <Menu.Item onClick={() => history.push('/subscriptions')} icon={<GoldOutlined />} key="2">My Subscriptions</Menu.Item>
-                <Menu.Item onClick={() => history.push('/appointments')} icon={<ProfileOutlined />} key="3">My Appointments</Menu.Item>
+                <Menu.Item onClick={() => history.push(`/appo-overview/999`)} icon={<ProfileOutlined />} key="3">My Appointments</Menu.Item>
                 
                 <Menu.Item onClick={() => history.push('/messages')} icon={<MailOutlined />} key="4"><Badge dot offset={[10, 10]}> Messages </Badge></Menu.Item>
                 
@@ -66,8 +66,8 @@ return (
                 {entities.map(entity =>
                     <SubMenu icon={<TeamOutlined />} key={entity['id']} title={entity['name']}>
                         <Menu.Item icon={<ProfileOutlined />} onClick={() => history.push(`/entity-overview/${entity['id']}`)}  key={entity['id']+'profile'}>Profile</Menu.Item>
-                        <Menu.Item icon={<UnorderedListOutlined />}  key={entity['id']+'appos'}>Appointments</Menu.Item>
-                        <Menu.Item icon={<ScheduleOutlined />} onClick={() => history.push('/templates')} key={entity['id']+'scheds'}>Schedules</Menu.Item>
+                        <Menu.Item icon={<UnorderedListOutlined />} onClick={() => history.push(`/appo-overview/${entity['id']}`)} key={entity['id']+'appos'}>Appointments</Menu.Item>
+                        <Menu.Item icon={<ScheduleOutlined />} onClick={() => history.push(`/templates/${entity['id']}`)} key={entity['id']+'scheds'}>Schedules</Menu.Item>
                         <Menu.Item icon={<MessageOutlined />} key={entity['id']+'mess'}>Messages</Menu.Item>
                         <Menu.Item icon={<SettingOutlined />} key={entity['id']+'Sett'}>Settings</Menu.Item>
                     </SubMenu>
